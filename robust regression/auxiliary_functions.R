@@ -1,6 +1,6 @@
 
 
-
+# auxiliary functions required by SMC ABC
 
 compute_statistics <- function(y, extra_args){
   

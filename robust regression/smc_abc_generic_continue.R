@@ -1,5 +1,8 @@
 smc_abc_generic_continue <- function(theta,ssx,N,a,acc_rate_stop,prior_sim,prior_eval,distance_fun,distance_fun_pilot,extra_args){
   
+ # generic implementation of the SMC ABC replenishment algorithm of Drovandi and Pettitt (2011) Biometrics.
+ # this version of the code is initialised with an ABC sample rather than a prior sample.
+  
   param = prior_sim(extra_args)
   num_params = length(param)
   
@@ -9,17 +12,9 @@ smc_abc_generic_continue <- function(theta,ssx,N,a,acc_rate_stop,prior_sim,prior
   trial_mcmc_iters = 5
   
   dist = rep(0,N)
-  
-  #if (extra_args$return_summ == TRUE){
-  #  ssx = matrix(0, nrow = N, ncol = length(extra_args$obs_summ))
-  #}
+ 
   
   for (i in 1:N){
-    #ret = distance_fun(theta[i,], extra_args)
-    #dist[i] = ret$dist
-    #if (extra_args$return_summ == TRUE){
-    #  ssx[i,] = ret$sim_summ  
-    #}
     dist[i] = sum((extra_args$obs_summ - ssx[i,])^2)
   }
   

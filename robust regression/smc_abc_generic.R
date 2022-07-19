@@ -1,5 +1,7 @@
 smc_abc_generic <- function(N,a,acc_rate_stop,prior_sim,prior_eval,distance_fun,extra_args){
 
+# generic implementation of the SMC ABC replenishment algorithm of Drovandi and Pettitt (2011) Biometrics.
+
 param = prior_sim(extra_args)
 num_params = length(param)
 
