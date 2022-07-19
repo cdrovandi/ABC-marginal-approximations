@@ -1,4 +1,6 @@
 
+% code to implement the analytical normal example
+
 rng(7);
 
 n=10;
