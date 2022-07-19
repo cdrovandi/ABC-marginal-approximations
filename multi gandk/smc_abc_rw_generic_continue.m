@@ -2,58 +2,10 @@ function [part_vals, part_sim, part_s, sims,dist_t,p_acc_t,dist_history,sims_his
                                                  dist_func,dist_func_pilot,smry_func,smry_func_pilot,...
                                                  prior_funcs,extra_args,N,dist_final,...
                                                  a,c,p_acc_min)
-%% Adaptive sequential Monte Carlo for approximate Bayesian computation.
-
-% UPDATE COMMENTS
-%  
-% Parameters: 
-%   y         - observed data.
-%   sim_func  - user defined function that simulates the model of interest given
-%              a vector of parameter values.
-%	sim_args  - any additional arguments required in the simulation function
-%   dist_func - distance function/discrepancy metric for comparing simulated and 
-%               true data.
-%   smry_func - summary statistic function for mapping data to a lower dimensional
-%               space.
-%   prior     - data struction for the prior distribution of the parameters. 
-%               Requires the following fields. 
-%               
-%               num_params - the dimensionality of the parameter space;
-%               sampler    - a sampling function that generates random vectors from
-%                            the joint prior distribution;
-%               pdf        - the joint probability density function;
-%               trans_f    - transform of prior paramete space to ensure 
-%                            unbounded support for MCMC sampling.
-%               trans_finv - inverse of transform.
-%  N          - number of particles for SMC sampler.
-%  dist_final - target discrepancy threshold. If zero, then p_acc_min is used to
-%               determine stopping criteria.
-%  a          - tuning parameter for adaptive selection of discrepancy threshold 
-%               sequence. 
-%  c          - tuning parameter for choosing the number of MCMC iterations in 
-%               move step.
-%  p_acc_min  - minimum acceptable acceptance rate in the MCMC interations. If
-%               zero the dist_final is used to determine stopping criteria. 
-%
-% Returns:
-%    part_val  - parameter values for each particle.
-%    part_sim  - summary statistics for each particle.
-%    part_c    - discrepancy metric value for each particle.
-%    sim       - total number of model simulations performed.
-%    dist_t    - smallest discrepacy threshold reached.
-%    p_acc_min - smallest MCMC acceptance rate reached.
-%
-%% Authors:
-%     Christopher Drovandi (c.drovandi@qut.edu.au)
-%           School of Mathematical Sciences
-%           Science Faculty 
-%           Queensland University of Technology
-%
-%     David J. Warne (david.warne@qut.edu.au)
-%           School of Mathematical Sciences
-%           Science Faculty
-%           Queensland University of Technology
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+% Generic implementation of the SMC ABC replenishment algorithm of Drovandi and Pettitt (2011).  Biometrics.
+% This version of the code is initialised with an ABC sample rather than a prior sample.
+%%
 
 % compute summary statistics for observations
 part_obs = smry_func(y,extra_args);
@@ -66,13 +18,9 @@ mcmc_trials = 5;
 
 % Initialise particle data structures
 part_s = zeros(N,1);
-%part_sim = zeros(N, length(part_obs));
 
 % initial prior rejection algorithm
 parfor i = 1:N
-    % simulate model
-    %y_s = sim_func(part_vals(i,:), extra_args);
-    % part_sim(i,:) = smry_func(y_s, extra_args);
     % evaluate the discrepancy metric    
     part_s(i) = dist_func(part_obs,part_sim(i,:), extra_args);
 end
@@ -102,10 +50,9 @@ p_acc_t = 0;
 % interate toward target discrepancy
 while (dist_max > dist_final)
     fprintf('****************************** \n');
-    %tic()
+
     % compute the covariance matrix (of particles that remain) required 
     % for the Independent MH move step
-    % TODO: include user defined MCMC adaptation
     cov_matrix = (2.38^2)*cov(part_vals(1:num_keep,:))/size(part_vals,2);
     
     % resample
