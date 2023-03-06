@@ -2,6 +2,7 @@
 
 # auxiliary functions required by SMC ABC
 
+# compute all summaries
 compute_statistics <- function(y, extra_args){
   
   X = extra_args$X
@@ -14,6 +15,7 @@ compute_statistics <- function(y, extra_args){
 }
 
 
+# compute summaries related to parameter 1
 compute_statistics1 <- function(y, extra_args){
   
   X = extra_args$X
@@ -25,6 +27,7 @@ compute_statistics1 <- function(y, extra_args){
   robust$coef[1]
 }
 
+# compute summaries related to parameter 2
 compute_statistics2 <- function(y, extra_args){
   
   X = extra_args$X
@@ -37,6 +40,7 @@ compute_statistics2 <- function(y, extra_args){
 }
 
 
+# compute summaries related to parameter 3
 compute_statistics3 <- function(y, extra_args){
   
   X = extra_args$X
@@ -48,6 +52,7 @@ compute_statistics3 <- function(y, extra_args){
   robust$coef[3]
 }
 
+# compute summaries related to parameter 4
 compute_statistics4 <- function(y, extra_args){
   
   X = extra_args$X

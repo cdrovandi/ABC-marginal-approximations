@@ -1,15 +1,27 @@
-library(ggplot2)
-library(gridExtra)
-library(grid)
 
-library(MASS)
-library(brlm)
-library(MCMCpack)
-library(tidyverse)
-library(mvtnorm)
-library(invgamma)
-library(ggplot2)
-library(gridExtra)
+
+# Package names
+packages <- c("MASS", "brlm", "MCMCpack", "tidyverse", "mvtnorm", "invgamma", "ggplot2", "gridExtra", "grid")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+
+# load libraries
+#library(MASS)
+#library(brlm)
+#library(MCMCpack)
+#library(tidyverse)
+#library(mvtnorm)
+#library(invgamma)
+#library(ggplot2)
+#library(gridExtra)
+#library(grid)
 
 source("auxiliary_functions.R")
 

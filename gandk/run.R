@@ -1,11 +1,23 @@
 
+# Package names
+packages <- c("parallel", "gk", "mvtnorm", "MASS")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+
 
 
 # libraries
-library(parallel)
-library(gk)
-library(mvtnorm)
-library(MASS)
+#library(parallel)
+#library(gk)
+#library(mvtnorm)
+#library(MASS)
 
  
 source("smc_abc_generic.R")

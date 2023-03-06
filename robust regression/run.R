@@ -1,14 +1,30 @@
 
 
 
-library(MASS)
+# Package names
+packages <- c("MASS", "MCMCpack", "tidyverse", "mvtnorm", "invgamma", "ggplot2", "gridExtra", "devtools")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+
+install_github("jrlewi/brlm")
 library(brlm)
-library(MCMCpack)
-library(tidyverse)
-library(mvtnorm)
-library(invgamma)
-library(ggplot2)
-library(gridExtra)
+
+# load libraries
+#library(MASS)
+#library(brlm)
+#library(MCMCpack)
+#library(tidyverse)
+#library(mvtnorm)
+#library(invgamma)
+#library(ggplot2)
+#library(gridExtra)
 
 
 
